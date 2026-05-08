@@ -46,7 +46,7 @@ jobs:
             AWS_RDS_MYSQL_PASSWORD=${{ secrets.AWS_RDS_MYSQL_PASSWORD }}
             EOF
             
-            export $(cat ~/app/.env | xargs)
+            export $(cat /home/ubuntu/artdiary/.env | xargs)
             
             pkill -f 'artdiary-*.jar' || true
             nohup java -jar /home/ubuntu/artdiary/artdiary-*.jar --spring.profiles.active=prod > /home/ubuntu/artdiary/app.log 2>&1 &
