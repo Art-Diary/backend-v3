@@ -34,7 +34,7 @@ jobs:
           target: "~/"
 
       - name: Set environment variables and restart app
-        uses: appleboy/ssh-action@1.2.5
+        uses: appleboy/ssh-action@v1.2.5
         with:
           host: ${{ secrets.AWS_EC2_HOST }}
           username: ${{ secrets.AWS_EC2_USERNAME }}
