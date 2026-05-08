@@ -40,8 +40,13 @@ jobs:
           username: ${{ secrets.AWS_EC2_USERNAME }}
           key: ${{ secrets.AWS_EC2_KEY }}
           script: |
-            export AWS_RDS_MYSQL_ENDPOINT="${{ secrets.AWS_RDS_MYSQL_ENDPOINT }}"
-            export AWS_RDS_MYSQL_USERNAME="${{ secrets.AWS_RDS_MYSQL_USERNAME }}"
-            export AWS_RDS_MYSQL_PASSWORD="${{ secrets.AWS_RDS_MYSQL_PASSWORD }}"
+            cat > /home/ubuntu/artdiary/.env <<EOF
+            AWS_RDS_MYSQL_ENDPOINT=${{ secrets.AWS_RDS_MYSQL_ENDPOINT }}
+            AWS_RDS_MYSQL_USERNAME=${{ secrets.AWS_RDS_MYSQL_USERNAME }}
+            AWS_RDS_MYSQL_PASSWORD=${{ secrets.AWS_RDS_MYSQL_PASSWORD }}
+            EOF
+            
+            export $(cat ~/app/.env | xargs)
+            
             pkill -f 'artdiary-*.jar' || true
             nohup java -jar /home/ubuntu/artdiary/artdiary-*.jar --spring.profiles.active=prod > /home/ubuntu/artdiary/app.log 2>&1 &
