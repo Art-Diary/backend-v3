@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: artdiary
+  profiles:
+    default: local
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+logging:
+  level:
+    root: debug
