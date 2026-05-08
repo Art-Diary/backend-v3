@@ -1,0 +1,23 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 1
+      idle-timeout: 30000
+    url: jdbc:mysql://${AWS_RDS_MYSQL_ENDPOINT}:3306/artdiarydb
+    username: ${AWS_RDS_MYSQL_USERNAME}
+    password: ${AWS_RDS_MYSQL_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate # 개발이면 update, 운영이면 validate 권장
+    properties:
+      hibernate:
+        format_sql: false
+
+logging:
+  level:
+    root: info

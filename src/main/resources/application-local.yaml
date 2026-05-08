@@ -1,0 +1,27 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 1
+      idle-timeout: 30000
+    url: ${MYSQL_LOCAL_URL}
+    username: ${MYSQL_LOCAL_USERNAME}
+    password: ${MYSQL_LOCAL_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: update # 개발이면 update, 운영이면 validate 권장
+    properties:
+      hibernate:
+        format_sql: true
+
+#logging:
+#  level:
+#    com.klieme.artdiary.adapter.out.mysql: debug
+
+springdoc:
+  swagger-ui:
+    path: /swagger
