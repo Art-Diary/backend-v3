@@ -1,13 +1,13 @@
 package com.klieme.artdiary.domain
 
-import java.util.*
+import java.time.LocalDate
 
 data class Exh(
     val exhId: Long?,
     val exhName: String,
     val gallery: String,
-    val startDate: Date,
-    val endDate: Date,
+    val startDate: LocalDate,
+    val endDate: LocalDate,
     val painter: String?,
     val fee: Int,
     val intro: String?,

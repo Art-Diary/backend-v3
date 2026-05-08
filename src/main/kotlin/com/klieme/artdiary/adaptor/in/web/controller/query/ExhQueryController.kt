@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import java.util.*
+import java.time.LocalDate
 
 data class ExhResponse(
     val exhId: Long?,
     val exhName: String,
     val gallery: String,
-    val startDate: Date,
-    val endDate: Date,
+    val startDate: LocalDate,
+    val endDate: LocalDate,
     val painter: String?,
     val fee: Int,
     val intro: String?,

@@ -22,6 +22,10 @@ spring:
 #  level:
 #    com.klieme.artdiary.adapter.out.mysql: debug
 
+logging:
+  level:
+    root: debug
+
 springdoc:
   swagger-ui:
     path: /swagger

@@ -1,7 +1,7 @@
 package com.klieme.artdiary.adaptor.out.mysql
 
 import jakarta.persistence.*
-import java.util.Date
+import java.time.LocalDate
 
 @Entity
 @Table(name = "exhibition", schema = "public")
@@ -18,10 +18,10 @@ class ExhEntity (
     var gallery: String,
 
     @Column(name = "start_date", nullable = false)
-    var startDate: Date,
+    var startDate: LocalDate,
 
     @Column(name = "end_date", nullable = false)
-    var endDate: Date,
+    var endDate: LocalDate,
 
     @Column(name = "painter")
     var painter: String? = null,
@@ -32,7 +32,7 @@ class ExhEntity (
     @Column(name = "intro", columnDefinition = "LONGTEXT")
     var intro: String? = null,
 
-    @Column(name = "homepage_link")
+    @Column(name = "homepage_link", length = 2083)
     var homepageLink: String? = null,
 
     @Column(name = "poster", nullable = false)
