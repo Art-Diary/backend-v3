@@ -29,8 +29,9 @@ jobs:
           host: ${{ secrets.AWS_EC2_HOST }}
           username: ${{ secrets.AWS_EC2_USERNAME }}
           key: ${{ secrets.AWS_EC2_KEY }}
-          source: "build/libs/*.jar"
-          target: "~/"
+          source: "build/libs/*-SNAPSHOT.jar"
+          target: "/home/ubuntu/artdiary/"
+          strip_components: 2
 
       - name: Set environment variables and restart app
         uses: appleboy/ssh-action@v1.2.5
@@ -43,4 +44,4 @@ jobs:
             export AWS_RDS_MYSQL_USERNAME="${{ secrets.AWS_RDS_MYSQL_USERNAME }}"
             export AWS_RDS_MYSQL_PASSWORD="${{ secrets.AWS_RDS_MYSQL_PASSWORD }}"
             pkill -f 'artdiary-*.jar' || true
-            nohup java -jar ~/artdiary-*.jar --spring.profiles.active=prod > app.log 2>&1 &
+            nohup java -jar /home/ubuntu/artdiary/artdiary-*.jar --spring.profiles.active=prod > /home/ubuntu/artdiary/app.log 2>&1 &
