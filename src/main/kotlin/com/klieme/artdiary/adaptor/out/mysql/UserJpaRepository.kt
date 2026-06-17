@@ -12,4 +12,6 @@ interface UserJpaRepository: JpaRepository<UserEntity, Long> {
     ): UserEntity?
 
     fun findByUserId(userId: Long): UserEntity?
+
+    fun existsByNickname(nickname: String): Boolean
 }
