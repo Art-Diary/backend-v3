@@ -15,6 +15,9 @@ interface UserPort {
     fun updateRefreshToken(
         userId: Long,
         refreshToken: String,
-        refreshTokenExpiredAt: LocalDateTime
+        refreshTokenExpiredAt: LocalDateTime,
+        alarmToken: String?
     )
+
+    fun existsByNickname(nickname: String): Boolean
 }

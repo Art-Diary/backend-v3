@@ -32,6 +32,7 @@ class LocalSecurityConfig(
             .authorizeHttpRequests {
                 it.requestMatchers(
                     "/api/users",
+                    "/swagger",
                     "/swagger-ui/**",
                     "/v3/api-docs/**",
                     "/swagger-resources/**",

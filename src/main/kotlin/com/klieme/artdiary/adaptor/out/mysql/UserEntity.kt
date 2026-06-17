@@ -20,7 +20,7 @@ class UserEntity (
     @Column(name = "user_id")
     var userId: Long? = null,
 
-    @Column(length = 50)
+    @Column(length = 50, unique = true)
     var nickname: String? = null,
 
     @Column
@@ -54,11 +54,16 @@ class UserEntity (
 ) {
     // one many를 여기에 넣어??????? 왜????
 
-    fun updateRefreshToken(
+    fun updateRefreshTokenAndAlarmToken(
         refreshToken: String,
-        refreshTokenExpiredAt: LocalDateTime
+        refreshTokenExpiredAt: LocalDateTime,
+        alarmToken: String?
     ) {
         this.refreshToken = refreshToken
         this.refreshTokenExpiredAt = refreshTokenExpiredAt
+
+        alarmToken?.let {
+            this.alarmToken = it
+        }
     }
 }

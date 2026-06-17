@@ -25,13 +25,23 @@ class UserPersistenceAdapter(
         return UserMapper.toDomain(newUser)
     }
 
-    override fun updateRefreshToken(userId: Long, refreshToken: String, refreshTokenExpiredAt: LocalDateTime) {
+    override fun updateRefreshToken(
+        userId: Long,
+        refreshToken: String,
+        refreshTokenExpiredAt: LocalDateTime,
+        alarmToken: String?
+    ) {
         val userEntity = jpaRepository.findByUserId(userId)
             ?: throw ArtdiaryException(ErrorType.NOT_FOUND)
 
-        userEntity.updateRefreshToken(
+        userEntity.updateRefreshTokenAndAlarmToken(
             refreshToken = refreshToken,
-            refreshTokenExpiredAt = refreshTokenExpiredAt
+            refreshTokenExpiredAt = refreshTokenExpiredAt,
+            alarmToken = alarmToken
         )
+    }
+
+    override fun existsByNickname(nickname: String): Boolean {
+        return jpaRepository.existsByNickname(nickname)
     }
 }
