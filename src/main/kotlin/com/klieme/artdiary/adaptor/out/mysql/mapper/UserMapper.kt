@@ -1,5 +1,6 @@
-package com.klieme.artdiary.adaptor.out.mysql
+package com.klieme.artdiary.adaptor.out.mysql.mapper
 
+import com.klieme.artdiary.adaptor.out.mysql.entity.UserEntity
 import com.klieme.artdiary.domain.User
 
 object UserMapper {

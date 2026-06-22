@@ -1,5 +1,7 @@
-package com.klieme.artdiary.adaptor.out.mysql
+package com.klieme.artdiary.adaptor.out.mysql.adapter
 
+import com.klieme.artdiary.adaptor.out.mysql.mapper.UserMapper
+import com.klieme.artdiary.adaptor.out.mysql.repository.UserJpaRepository
 import com.klieme.artdiary.application.port.out.UserPort
 import com.klieme.artdiary.common.exception.ArtdiaryException
 import com.klieme.artdiary.common.exception.ErrorType

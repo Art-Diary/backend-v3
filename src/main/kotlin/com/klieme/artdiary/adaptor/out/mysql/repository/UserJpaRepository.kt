@@ -1,5 +1,6 @@
-package com.klieme.artdiary.adaptor.out.mysql
+package com.klieme.artdiary.adaptor.out.mysql.repository
 
+import com.klieme.artdiary.adaptor.out.mysql.entity.UserEntity
 import com.klieme.artdiary.domain.ProviderType
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository

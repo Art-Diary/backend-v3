@@ -1,11 +1,11 @@
-package com.klieme.artdiary.adaptor.out.mysql
+package com.klieme.artdiary.adaptor.out.mysql.entity
 
 import jakarta.persistence.*
 import java.time.LocalDate
 
 @Entity
 @Table(name = "exhibition", schema = "public")
-class ExhEntity (
+class ExhEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "exh_id")
@@ -42,5 +42,8 @@ class ExhEntity (
     var artField: String? = null,
 
     @Column(name = "source", nullable = false)
-    var source: String
+    var source: String,
+
+    @Column(name = "like_count", nullable = false)
+    var likeCount: Long = 0
 )

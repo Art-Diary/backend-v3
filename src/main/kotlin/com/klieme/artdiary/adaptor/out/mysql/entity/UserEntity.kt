@@ -1,4 +1,4 @@
-package com.klieme.artdiary.adaptor.out.mysql
+package com.klieme.artdiary.adaptor.out.mysql.entity
 
 import com.klieme.artdiary.domain.ProviderType
 import com.klieme.artdiary.domain.RoleType
