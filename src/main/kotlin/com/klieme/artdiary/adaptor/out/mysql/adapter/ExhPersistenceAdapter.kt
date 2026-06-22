@@ -1,5 +1,7 @@
-package com.klieme.artdiary.adaptor.out.mysql
+package com.klieme.artdiary.adaptor.out.mysql.adapter
 
+import com.klieme.artdiary.adaptor.out.mysql.mapper.ExhMapper
+import com.klieme.artdiary.adaptor.out.mysql.repository.ExhJpaRepository
 import com.klieme.artdiary.application.port.out.ExhPort
 import com.klieme.artdiary.common.exception.ArtdiaryException
 import com.klieme.artdiary.common.exception.ErrorType
@@ -41,5 +43,21 @@ class ExhPersistenceAdapter(
                 "Id [$exhId] has no exhibition data"
             )
         return ExhMapper.toDomain(exh)
+    }
+
+    override fun increaseLikeCount(exhId: Long) {
+        val updatedCount = jpaRepository.increaseLikeCount(exhId)
+
+        if (updatedCount == 0) {
+            throw ArtdiaryException(ErrorType.NOT_FOUND)
+        }
+    }
+
+    override fun decreaseLikeCount(exhId: Long) {
+        jpaRepository.decreaseLikeCount(exhId)
+    }
+
+    override fun existsByExhId(exhId: Long): Boolean {
+        return jpaRepository.existsByExhId(exhId)
     }
 }
