@@ -1,26 +1,44 @@
 package com.klieme.artdiary.application.service.query
 
+import com.klieme.artdiary.application.dto.ExhDetailResult
+import com.klieme.artdiary.application.dto.ExhListResult
+import com.klieme.artdiary.application.port.`in`.query.ExhDetailQuery
+import com.klieme.artdiary.application.port.`in`.query.ExhListQuery
 import com.klieme.artdiary.application.port.`in`.query.ExhQueryUseCase
 import com.klieme.artdiary.application.port.out.ExhPort
-import com.klieme.artdiary.domain.Exh
+import org.springframework.data.domain.Slice
 import org.springframework.stereotype.Service
-import java.time.LocalDate
 
 @Service
 class ExhQueryService(
     private val exhPort: ExhPort
-): ExhQueryUseCase {
-    override fun getExhList(keyword: String?, date: LocalDate?): List<Exh> {
-        return if (keyword != null) {
-            exhPort.findByKeyword(keyword)
-        } else if (date != null) {
-            exhPort.findByDate(date)
+) : ExhQueryUseCase {
+    override fun getExhList(query: ExhListQuery): Slice<ExhListResult> {
+        return if (!query.keyword.isNullOrBlank()) {
+            exhPort.findList(
+                query.keyword,
+                null,
+                query.userId,
+                pageable = query.pageable,
+            )
+        } else if (query.date != null) {
+            exhPort.findList(
+                null,
+                query.date,
+                query.userId,
+                pageable = query.pageable,
+            )
         } else {
-            exhPort.findAll()
+            exhPort.findList(
+                null,
+                null,
+                query.userId,
+                pageable = query.pageable,
+            )
         }
     }
 
-    override fun getExhDetail(exhId: Long): Exh {
-        return exhPort.findByExhId(exhId)
+    override fun getExhDetail(query: ExhDetailQuery): ExhDetailResult {
+        return exhPort.findDetail(query.exhId, query.userId)
     }
 }
