@@ -1,18 +1,12 @@
-package com.klieme.artdiary.application.port.out
+package com.klieme.artdiary.adaptor.out.mysql.repository
 
 import com.klieme.artdiary.application.dto.ExhDetailResult
 import com.klieme.artdiary.application.dto.ExhListResult
-import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
+import org.springframework.data.domain.Pageable
 import java.time.LocalDate
 
-interface ExhPort {
-    fun existsByExhId(exhId: Long): Boolean
-
-    fun increaseLikeCount(exhId: Long)
-
-    fun decreaseLikeCount(exhId: Long)
-
+interface ExhQueryRepository {
     fun findList(
         keyword: String? = null,
         date: LocalDate? = null,
@@ -23,5 +17,5 @@ interface ExhPort {
     fun findDetail(
         exhId: Long,
         userId: Long,
-    ): ExhDetailResult
+    ): ExhDetailResult?
 }

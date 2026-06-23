@@ -2,7 +2,7 @@ package com.klieme.artdiary.adaptor.`in`.web.response
 
 import java.time.LocalDate
 
-data class ExhListResponse (
+data class ExhListResponse(
     val exhId: Long?,
     val exhName: String,
     val gallery: String,
@@ -10,9 +10,10 @@ data class ExhListResponse (
     val endDate: LocalDate,
     val painter: String?,
     val poster: String,
+    val liked: Boolean
 )
 
-data class ExhResponse (
+data class ExhDetailResponse(
     val exhId: Long?,
     val exhName: String,
     val gallery: String,
@@ -23,5 +24,6 @@ data class ExhResponse (
     val intro: String?,
     val homepageLink: String?,
     val poster: String,
-    val source: String
+    val source: String,
+    val liked: Boolean
 )

@@ -1,9 +1,11 @@
 package com.klieme.artdiary.application.port.`in`.query
 
-import com.klieme.artdiary.domain.Exh
-import java.time.LocalDate
+import com.klieme.artdiary.application.dto.ExhDetailResult
+import com.klieme.artdiary.application.dto.ExhListResult
+import org.springframework.data.domain.Slice
 
 interface ExhQueryUseCase {
-    fun getExhList(keyword: String?, date: LocalDate?): List<Exh>
-    fun getExhDetail(exhId: Long): Exh
+    fun getExhList(query: ExhListQuery): Slice<ExhListResult>
+
+    fun getExhDetail(query: ExhDetailQuery): ExhDetailResult
 }

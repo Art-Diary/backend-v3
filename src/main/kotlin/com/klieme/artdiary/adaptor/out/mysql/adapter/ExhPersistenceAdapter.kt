@@ -1,48 +1,24 @@
 package com.klieme.artdiary.adaptor.out.mysql.adapter
 
-import com.klieme.artdiary.adaptor.out.mysql.mapper.ExhMapper
 import com.klieme.artdiary.adaptor.out.mysql.repository.ExhJpaRepository
+import com.klieme.artdiary.adaptor.out.mysql.repository.ExhQueryRepository
+import com.klieme.artdiary.application.dto.ExhDetailResult
+import com.klieme.artdiary.application.dto.ExhListResult
 import com.klieme.artdiary.application.port.out.ExhPort
 import com.klieme.artdiary.common.exception.ArtdiaryException
 import com.klieme.artdiary.common.exception.ErrorType
-import com.klieme.artdiary.domain.Exh
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Slice
 import org.springframework.stereotype.Component
 import java.time.LocalDate
 
 @Component
 class ExhPersistenceAdapter(
-    private val jpaRepository: ExhJpaRepository
+    private val jpaRepository: ExhJpaRepository,
+    private val queryRepository: ExhQueryRepository
 ) : ExhPort {
-    override fun findByKeyword(keyword: String): List<Exh> {
-        val exhList =
-            jpaRepository.findByExhNameContainingIgnoreCaseOrGalleryContainingIgnoreCaseOrPainterContainingIgnoreCaseOrderByExhNameAsc(
-                keyword,
-                keyword,
-                keyword
-            )
-
-        return exhList.map { ExhMapper.toDomain(it) }
-    }
-
-    override fun findByDate(date: LocalDate): List<Exh> {
-        val exhList = jpaRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqualOrderByExhNameAsc(date, date)
-
-        return exhList.map { ExhMapper.toDomain(it) }
-    }
-
-    override fun findAll(): List<Exh> {
-        val exhList = jpaRepository.findAll()
-
-        return exhList.map { ExhMapper.toDomain(it) }
-    }
-
-    override fun findByExhId(exhId: Long): Exh {
-        val exh = jpaRepository.findByExhId(exhId)
-            ?: throw ArtdiaryException(
-                ErrorType.NOT_FOUND,
-                "Id [$exhId] has no exhibition data"
-            )
-        return ExhMapper.toDomain(exh)
+    override fun existsByExhId(exhId: Long): Boolean {
+        return jpaRepository.existsByExhId(exhId)
     }
 
     override fun increaseLikeCount(exhId: Long) {
@@ -57,7 +33,22 @@ class ExhPersistenceAdapter(
         jpaRepository.decreaseLikeCount(exhId)
     }
 
-    override fun existsByExhId(exhId: Long): Boolean {
-        return jpaRepository.existsByExhId(exhId)
+    override fun findList(
+        keyword: String?,
+        date: LocalDate?,
+        userId: Long,
+        pageable: Pageable,
+    ): Slice<ExhListResult> {
+        return queryRepository.findList(
+            keyword = keyword,
+            date = date,
+            userId = userId,
+            pageable = pageable,
+        )
+    }
+
+    override fun findDetail(exhId: Long, userId: Long): ExhDetailResult {
+        return queryRepository.findDetail(exhId = exhId, userId = userId)
+            ?: throw ArtdiaryException(ErrorType.NOT_FOUND)
     }
 }
