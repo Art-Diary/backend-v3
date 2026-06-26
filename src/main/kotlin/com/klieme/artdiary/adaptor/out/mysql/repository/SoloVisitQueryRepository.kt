@@ -1,15 +1,15 @@
 package com.klieme.artdiary.adaptor.out.mysql.repository
 
-import com.klieme.artdiary.application.dto.SoloVisitDiaryListResult
-import com.klieme.artdiary.application.dto.SoloVisitTicketListResult
+import com.klieme.artdiary.application.dto.SoloDiaryListResult
+import com.klieme.artdiary.application.dto.SoloVisitedExhListResult
 
 interface SoloVisitQueryRepository {
-    fun findTicketList(
+    fun findVisitedExhList(
         userId: Long,
-    ): List<SoloVisitTicketListResult>
+    ): List<SoloVisitedExhListResult>
 
     fun findDiaryList(
         exhId: Long,
         userId: Long,
-    ): List<SoloVisitDiaryListResult>
+    ): List<SoloDiaryListResult>
 }

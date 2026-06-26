@@ -8,7 +8,13 @@ import java.time.LocalDate
     name = "visit",
     schema = "public",
     uniqueConstraints = [
-        UniqueConstraint(columnNames = ["ticket_id", "visit_date"])
+        UniqueConstraint(
+            columnNames = [
+                "exh_id",
+                "user_id",
+                "visit_date"
+            ]
+        )
     ]
 )
 class VisitEntity(
@@ -17,10 +23,14 @@ class VisitEntity(
     @Column
     var id: Long? = null,
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ticket_id", nullable = false)
-    val ticket: TicketEntity,
-
     @Column(name = "visit_date", nullable = false)
     var visitDate: LocalDate,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "exh_id", nullable = false)
+    val exh: ExhEntity,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    var user: UserEntity? = null,
 )

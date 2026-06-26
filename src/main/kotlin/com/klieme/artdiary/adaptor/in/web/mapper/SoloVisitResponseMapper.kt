@@ -1,12 +1,12 @@
 package com.klieme.artdiary.adaptor.`in`.web.mapper
 
 import com.klieme.artdiary.adaptor.`in`.web.response.SoloDiaryResponse
-import com.klieme.artdiary.adaptor.`in`.web.response.SoloVisitDiaryListResponse
-import com.klieme.artdiary.adaptor.`in`.web.response.SoloVisitTicketListResponse
-import com.klieme.artdiary.application.dto.SoloVisitDiaryListResult
-import com.klieme.artdiary.application.dto.SoloVisitTicketListResult
+import com.klieme.artdiary.adaptor.`in`.web.response.SoloDiaryListResponse
+import com.klieme.artdiary.adaptor.`in`.web.response.SoloVisitedExhListResponse
+import com.klieme.artdiary.application.dto.SoloDiaryListResult
+import com.klieme.artdiary.application.dto.SoloVisitedExhListResult
 
-fun SoloVisitTicketListResult.toListResponse(): SoloVisitTicketListResponse = SoloVisitTicketListResponse(
+fun SoloVisitedExhListResult.toListResponse(): SoloVisitedExhListResponse = SoloVisitedExhListResponse(
     exhId = exhId,
     exhName = exhName,
     gallery = gallery,
@@ -14,13 +14,13 @@ fun SoloVisitTicketListResult.toListResponse(): SoloVisitTicketListResponse = So
     visitDate = visitDate
 )
 
-fun List<SoloVisitDiaryListResult>.toListResponse(): List<SoloVisitDiaryListResponse> =
+fun List<SoloDiaryListResult>.toListResponse(): List<SoloDiaryListResponse> =
     groupBy { it.visitId }
         .map { (_, results) ->
 
             val first = results.first()
 
-            SoloVisitDiaryListResponse(
+            SoloDiaryListResponse(
                 visitId = first.visitId,
                 visitDate = first.visitDate,
                 diaries = results.map {

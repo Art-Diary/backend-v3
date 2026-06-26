@@ -4,7 +4,7 @@ import com.querydsl.core.annotations.QueryProjection
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-data class SoloVisitDiaryListResult
+data class SoloDiaryListResult
 @QueryProjection
 constructor(
     val visitId: Long,

@@ -3,7 +3,6 @@ package com.klieme.artdiary.adaptor.out.mysql.repository
 import com.klieme.artdiary.adaptor.out.mysql.entity.QExhEntity.exhEntity
 import com.klieme.artdiary.adaptor.out.mysql.entity.QQuestionEntity.questionEntity
 import com.klieme.artdiary.adaptor.out.mysql.entity.QSoloDiaryEntity.soloDiaryEntity
-import com.klieme.artdiary.adaptor.out.mysql.entity.QTicketEntity.ticketEntity
 import com.klieme.artdiary.adaptor.out.mysql.entity.QVisitEntity.visitEntity
 import com.klieme.artdiary.application.dto.*
 import com.querydsl.jpa.impl.JPAQueryFactory
@@ -14,14 +13,13 @@ class SoloVisitQueryRepositoryImpl(
     private val queryFactory: JPAQueryFactory,
 ) : SoloVisitQueryRepository {
 
-    override fun findTicketList(userId: Long): List<SoloVisitTicketListResult> {
+    override fun findVisitedExhList(userId: Long): List<SoloVisitedExhListResult> {
 
         return queryFactory
-            .select(ticketListProjection())
-            .from(ticketEntity)
-            .join(ticketEntity.exh, exhEntity)
-            .join(visitEntity).on(visitEntity.ticket.eq(ticketEntity))
-            .where(ticketEntity.user.userId.eq(userId))
+            .select(visitedExhListProjection())
+            .from(visitEntity)
+            .join(visitEntity.exh, exhEntity)
+            .where(visitEntity.user.userId.eq(userId))
             .groupBy(
                 exhEntity.exhId,
                 exhEntity.exhName,
@@ -32,9 +30,9 @@ class SoloVisitQueryRepositoryImpl(
             .fetch()
     }
 
-    private fun ticketListProjection(): QSoloVisitTicketListResult {
+    private fun visitedExhListProjection(): QSoloVisitedExhListResult {
 
-        return QSoloVisitTicketListResult(
+        return QSoloVisitedExhListResult(
             exhEntity.exhId,
             exhEntity.exhName,
             exhEntity.gallery,
@@ -43,16 +41,15 @@ class SoloVisitQueryRepositoryImpl(
         )
     }
 
-    override fun findDiaryList(exhId: Long, userId: Long): List<SoloVisitDiaryListResult> {
+    override fun findDiaryList(exhId: Long, userId: Long): List<SoloDiaryListResult> {
         return queryFactory
             .select(diaryListProjection())
             .from(soloDiaryEntity)
             .join(soloDiaryEntity.visit, visitEntity)
-            .join(visitEntity.ticket, ticketEntity)
             .join(soloDiaryEntity.question, questionEntity)
             .where(
-                ticketEntity.user.userId.eq(userId),
-                ticketEntity.exh.exhId.eq(exhId)
+                visitEntity.user.userId.eq(userId),
+                visitEntity.exh.exhId.eq(exhId)
             )
             .orderBy(
                 visitEntity.visitDate.desc(),
@@ -61,9 +58,9 @@ class SoloVisitQueryRepositoryImpl(
             .fetch()
     }
 
-    private fun diaryListProjection(): QSoloVisitDiaryListResult {
+    private fun diaryListProjection(): QSoloDiaryListResult {
 
-        return QSoloVisitDiaryListResult(
+        return QSoloDiaryListResult(
             visitEntity.id,
             visitEntity.visitDate,
             soloDiaryEntity.id,
