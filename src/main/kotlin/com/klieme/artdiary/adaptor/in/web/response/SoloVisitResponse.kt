@@ -3,7 +3,7 @@ package com.klieme.artdiary.adaptor.`in`.web.response
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-data class SoloVisitTicketListResponse(
+data class SoloVisitedExhListResponse(
     val exhId: Long,
     val exhName: String,
     val gallery: String,
@@ -11,7 +11,7 @@ data class SoloVisitTicketListResponse(
     val visitDate: LocalDate
 )
 
-data class SoloVisitDiaryListResponse(
+data class SoloDiaryListResponse(
     val visitId: Long,
     val visitDate: LocalDate,
     val diaries: List<SoloDiaryResponse>,

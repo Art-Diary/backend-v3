@@ -2,7 +2,7 @@ package com.klieme.artdiary.adaptor.`in`.web.controller.query
 
 import com.klieme.artdiary.adaptor.`in`.web.mapper.toListResponse
 import com.klieme.artdiary.adaptor.`in`.web.response.*
-import com.klieme.artdiary.application.port.`in`.query.SoloVisitDiaryListQuery
+import com.klieme.artdiary.application.port.`in`.query.SoloDiaryListQuery
 import com.klieme.artdiary.application.port.`in`.query.SoloVisitQueryUseCase
 import com.klieme.artdiary.infrastructure.jwt.CustomUserDetails
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -12,33 +12,33 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-@Tag(name = "Solo Visit", description = "Solo Visit 개인 방문 API")
+@Tag(name = "Solo Visit", description = "(Query) Solo Visit 개인 방문 API")
 @RestController
 @RequestMapping("/api/users/me/visited-exhibitions")
 class SoloVisitQueryController(
     private val soloVisitQueryUseCase: SoloVisitQueryUseCase
 ) {
     @GetMapping
-    fun getList(
+    fun getVisitedExhList(
         @AuthenticationPrincipal user: CustomUserDetails,
-    ): ApiResult<List<SoloVisitTicketListResponse>> {
-        val soloVisitListResult = soloVisitQueryUseCase.getTicketList(user.userId)
-        val response = soloVisitListResult.map { it.toListResponse() }
+    ): ApiResult<List<SoloVisitedExhListResponse>> {
+        val result = soloVisitQueryUseCase.getVisitedExhList(user.userId)
+        val response = result.map { it.toListResponse() }
 
         return ApiResponse.get(response)
     }
 
     @GetMapping("/{exhId}/diaries")
-    fun getDiaryList(
+    fun getSoloDiaryList(
         @PathVariable exhId: Long,
         @AuthenticationPrincipal user: CustomUserDetails,
-    ): ApiResult<List<SoloVisitDiaryListResponse>> {
-        val soloVisitQuery = SoloVisitDiaryListQuery(
+    ): ApiResult<List<SoloDiaryListResponse>> {
+        val query = SoloDiaryListQuery(
             exhId = exhId,
             userId = user.userId
         )
-        val soloVisitListResult = soloVisitQueryUseCase.getDiaryList(soloVisitQuery)
-        val response = soloVisitListResult.toListResponse()
+        val result = soloVisitQueryUseCase.getDiaryList(query)
+        val response = result.toListResponse()
 
         return ApiResponse.get(response)
     }

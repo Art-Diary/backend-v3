@@ -1,10 +1,10 @@
 package com.klieme.artdiary.application.port.out
 
-import com.klieme.artdiary.application.dto.SoloVisitDiaryListResult
-import com.klieme.artdiary.application.dto.SoloVisitTicketListResult
+import com.klieme.artdiary.application.dto.SoloDiaryListResult
+import com.klieme.artdiary.application.dto.SoloVisitedExhListResult
 
 interface SoloVisitPort {
-    fun findTicketList(userId: Long): List<SoloVisitTicketListResult>
+    fun findVisitedExhList(userId: Long): List<SoloVisitedExhListResult>
 
-    fun findDiaryList(exhId: Long, userId: Long): List<SoloVisitDiaryListResult>
+    fun findDiaryList(exhId: Long, userId: Long): List<SoloDiaryListResult>
 }
