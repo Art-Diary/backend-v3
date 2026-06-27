@@ -1,19 +1,26 @@
 package com.klieme.artdiary.application.service.command
 
-import com.klieme.artdiary.application.port.`in`.command.SoloVisitCreateCommand
-import com.klieme.artdiary.application.port.`in`.command.SoloVisitCommandUseCase
-import com.klieme.artdiary.application.port.`in`.command.SoloVisitDeleteCommand
-import com.klieme.artdiary.application.port.`in`.command.SoloVisitUpdateCommand
+import com.klieme.artdiary.application.port.`in`.command.*
 import com.klieme.artdiary.application.port.out.SoloDiaryPort
+import com.klieme.artdiary.application.port.out.VisitPort
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 
 @Service
 @Transactional
 class SoloVisitCommandService(
+    private val visitPort: VisitPort,
     private val soloDiaryPort: SoloDiaryPort
 ) : SoloVisitCommandUseCase {
-    override fun create(command: SoloVisitCreateCommand) {
+    override fun createVisit(command: SoloVisitCreateCommand) {
+        visitPort.save(
+            exhId = command.exhId,
+            userId = command.userId,
+            visitDate = command.visitDate
+        )
+    }
+
+    override fun createDiary(command: SoloDiaryCreateCommand) {
         soloDiaryPort.save(
             visitId = command.visitId,
             userId = command.userId,
@@ -24,7 +31,7 @@ class SoloVisitCommandService(
         )
     }
 
-    override fun update(command: SoloVisitUpdateCommand) {
+    override fun updateDiary(command: SoloDiaryUpdateCommand) {
         soloDiaryPort.update(
             visitId = command.visitId,
             userId = command.userId,
@@ -36,7 +43,7 @@ class SoloVisitCommandService(
         )
     }
 
-    override fun delete(command: SoloVisitDeleteCommand) {
+    override fun deleteDiary(command: SoloDiaryDeleteCommand) {
         soloDiaryPort.delete(
             visitId = command.visitId,
             userId = command.userId,

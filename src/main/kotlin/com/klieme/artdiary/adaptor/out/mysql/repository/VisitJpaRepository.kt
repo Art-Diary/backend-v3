@@ -1,9 +1,11 @@
 package com.klieme.artdiary.adaptor.out.mysql.repository
 
+import com.klieme.artdiary.adaptor.out.mysql.entity.ExhEntity
 import com.klieme.artdiary.adaptor.out.mysql.entity.UserEntity
 import com.klieme.artdiary.adaptor.out.mysql.entity.VisitEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
+import java.time.LocalDate
 
 @Repository
 interface VisitJpaRepository : JpaRepository<VisitEntity, Long> {
@@ -11,4 +13,10 @@ interface VisitJpaRepository : JpaRepository<VisitEntity, Long> {
         id: Long,
         user: UserEntity
     ): VisitEntity?
+
+    fun existsByExhAndUserAndVisitDate(
+        exh: ExhEntity,
+        user: UserEntity,
+        visitDate: LocalDate
+    ): Boolean
 }
