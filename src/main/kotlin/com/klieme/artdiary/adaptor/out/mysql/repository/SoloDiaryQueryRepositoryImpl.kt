@@ -2,6 +2,7 @@ package com.klieme.artdiary.adaptor.out.mysql.repository
 
 import com.klieme.artdiary.adaptor.out.mysql.entity.QQuestionEntity.questionEntity
 import com.klieme.artdiary.adaptor.out.mysql.entity.QSoloDiaryEntity.soloDiaryEntity
+import com.klieme.artdiary.adaptor.out.mysql.entity.QUserEntity.userEntity
 import com.klieme.artdiary.adaptor.out.mysql.entity.QVisitEntity.visitEntity
 import com.klieme.artdiary.adaptor.out.mysql.entity.SoloDiaryEntity
 import com.klieme.artdiary.application.dto.*
@@ -57,5 +58,33 @@ class SoloDiaryQueryRepositoryImpl(
                 visitEntity.id.eq(visitId)
             )
             .fetchOne()
+    }
+
+    override fun findExhReviewList(exhId: Long): List<ExhReviewResult> {
+        return queryFactory
+            .select(reviewProjection())
+            .from(soloDiaryEntity)
+            .join(soloDiaryEntity.visit, visitEntity)
+            .join(soloDiaryEntity.question, questionEntity)
+            .join(visitEntity.user, userEntity)
+            .where(
+                soloDiaryEntity.visit.exh.exhId.eq(exhId),
+                soloDiaryEntity.isPublic.isTrue
+            )
+            .orderBy(soloDiaryEntity.writeDate.desc())
+            .fetch()
+    }
+
+    private fun reviewProjection(): QExhReviewResult {
+
+        return QExhReviewResult(
+            soloDiaryEntity.id,
+            questionEntity.content,
+            soloDiaryEntity.content,
+            soloDiaryEntity.writeDate,
+            userEntity.userId,
+            userEntity.nickname,
+            userEntity.profile
+        )
     }
 }

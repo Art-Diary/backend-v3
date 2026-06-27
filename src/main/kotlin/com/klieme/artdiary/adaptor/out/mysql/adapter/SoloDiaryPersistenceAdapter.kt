@@ -2,6 +2,7 @@ package com.klieme.artdiary.adaptor.out.mysql.adapter
 
 import com.klieme.artdiary.adaptor.out.mysql.entity.SoloDiaryEntity
 import com.klieme.artdiary.adaptor.out.mysql.repository.*
+import com.klieme.artdiary.application.dto.ExhReviewResult
 import com.klieme.artdiary.application.dto.SoloDiaryResult
 import com.klieme.artdiary.application.port.out.SoloDiaryPort
 import com.klieme.artdiary.common.exception.ArtdiaryException
@@ -89,5 +90,11 @@ class SoloDiaryPersistenceAdapter(
         ) ?: throw ArtdiaryException(ErrorType.NOT_FOUND)
 
         jpaRepository.delete(entity)
+    }
+
+    override fun findExhReviewList(exhId: Long): List<ExhReviewResult> {
+        return queryRepository.findExhReviewList(
+            exhId = exhId
+        )
     }
 }

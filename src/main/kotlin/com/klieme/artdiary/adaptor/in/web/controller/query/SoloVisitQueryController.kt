@@ -1,6 +1,6 @@
 package com.klieme.artdiary.adaptor.`in`.web.controller.query
 
-import com.klieme.artdiary.adaptor.`in`.web.mapper.toListResponse
+import com.klieme.artdiary.adaptor.`in`.web.mapper.toResponse
 import com.klieme.artdiary.adaptor.`in`.web.response.*
 import com.klieme.artdiary.application.port.`in`.query.SoloDiaryListQuery
 import com.klieme.artdiary.application.port.`in`.query.SoloVisitQueryUseCase
@@ -23,7 +23,7 @@ class SoloVisitQueryController(
         @AuthenticationPrincipal user: CustomUserDetails,
     ): ApiResult<List<SoloVisitedExhResponse>> {
         val result = soloVisitQueryUseCase.getVisitedExhList(user.userId)
-        val response = result.map { it.toListResponse() }
+        val response = result.map { it.toResponse() }
 
         return ApiResponse.get(response)
     }
@@ -38,7 +38,7 @@ class SoloVisitQueryController(
             userId = user.userId
         )
         val result = soloVisitQueryUseCase.getDiaryList(query)
-        val response = result.map { it.toListResponse() }
+        val response = result.map { it.toResponse() }
 
         return ApiResponse.get(response)
     }
