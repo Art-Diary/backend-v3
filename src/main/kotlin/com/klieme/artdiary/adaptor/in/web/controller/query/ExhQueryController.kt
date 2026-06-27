@@ -1,11 +1,7 @@
 package com.klieme.artdiary.adaptor.`in`.web.controller.query
 
-import com.klieme.artdiary.adaptor.`in`.web.mapper.toDetailResponse
-import com.klieme.artdiary.adaptor.`in`.web.mapper.toListResponse
-import com.klieme.artdiary.adaptor.`in`.web.response.ApiResponse
-import com.klieme.artdiary.adaptor.`in`.web.response.ApiResult
-import com.klieme.artdiary.adaptor.`in`.web.response.ExhListResponse
-import com.klieme.artdiary.adaptor.`in`.web.response.ExhDetailResponse
+import com.klieme.artdiary.adaptor.`in`.web.mapper.toResponse
+import com.klieme.artdiary.adaptor.`in`.web.response.*
 import com.klieme.artdiary.application.port.`in`.query.ExhDetailQuery
 import com.klieme.artdiary.application.port.`in`.query.ExhListQuery
 import com.klieme.artdiary.application.port.`in`.query.ExhQueryUseCase
@@ -38,7 +34,7 @@ class ExhQueryController(
         @AuthenticationPrincipal user: CustomUserDetails,
         @ParameterObject
         @PageableDefault(size = 20) pageable: Pageable,
-    ): ApiResult<Slice<ExhListResponse>> {
+    ): ApiResult<Slice<ExhResponse>> {
         if (keyword != null && date != null) {
             throw ArtdiaryException(ErrorType.BAD_REQUEST)
         }
@@ -49,7 +45,7 @@ class ExhQueryController(
             pageable = pageable,
         )
         val exhListResult = exhQueryUseCase.getExhList(exhListQuery)
-        val response = exhListResult.map { it.toListResponse() }
+        val response = exhListResult.map { it.toResponse() }
 
         return ApiResponse.get(response)
     }
@@ -65,6 +61,21 @@ class ExhQueryController(
         )
         val exhResult = exhQueryUseCase.getExhDetail(exhDetailQuery)
 
-        return ApiResponse.get(exhResult.toDetailResponse())
+        return ApiResponse.get(exhResult.toResponse())
+    }
+
+    @GetMapping("/{exhId}/reviews")
+    fun getExhReviewList(
+        @PathVariable exhId: Long,
+        @AuthenticationPrincipal user: CustomUserDetails
+    ): ApiResult<List<ExhReviewResponse>> {
+        val exhDetailQuery = ExhDetailQuery(
+            exhId = exhId,
+            userId = user.userId
+        )
+        val result = exhQueryUseCase.getExhReviewList(exhDetailQuery)
+        val response = result.map { it.toResponse() }
+
+        return ApiResponse.get(response)
     }
 }

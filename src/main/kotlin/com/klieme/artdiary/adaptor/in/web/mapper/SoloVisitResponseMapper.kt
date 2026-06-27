@@ -5,7 +5,7 @@ import com.klieme.artdiary.adaptor.`in`.web.response.SoloVisitedExhResponse
 import com.klieme.artdiary.application.dto.SoloDiaryResult
 import com.klieme.artdiary.application.dto.SoloVisitedExhResult
 
-fun SoloVisitedExhResult.toListResponse(): SoloVisitedExhResponse = SoloVisitedExhResponse(
+fun SoloVisitedExhResult.toResponse(): SoloVisitedExhResponse = SoloVisitedExhResponse(
     visitId = visitId,
     visitDate = visitDate,
     exhId = exhId,
@@ -14,7 +14,7 @@ fun SoloVisitedExhResult.toListResponse(): SoloVisitedExhResponse = SoloVisitedE
     poster = poster
 )
 
-fun SoloDiaryResult.toListResponse(): SoloDiaryResponse = SoloDiaryResponse(
+fun SoloDiaryResult.toResponse(): SoloDiaryResponse = SoloDiaryResponse(
     soloDiaryId = soloDiaryId,
     questionId = questionId,
     questionContent = questionContent,

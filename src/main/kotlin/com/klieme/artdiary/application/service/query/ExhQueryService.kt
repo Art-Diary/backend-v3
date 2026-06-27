@@ -2,16 +2,19 @@ package com.klieme.artdiary.application.service.query
 
 import com.klieme.artdiary.application.dto.ExhDetailResult
 import com.klieme.artdiary.application.dto.ExhListResult
+import com.klieme.artdiary.application.dto.ExhReviewResult
 import com.klieme.artdiary.application.port.`in`.query.ExhDetailQuery
 import com.klieme.artdiary.application.port.`in`.query.ExhListQuery
 import com.klieme.artdiary.application.port.`in`.query.ExhQueryUseCase
 import com.klieme.artdiary.application.port.out.ExhPort
+import com.klieme.artdiary.application.port.out.SoloDiaryPort
 import org.springframework.data.domain.Slice
 import org.springframework.stereotype.Service
 
 @Service
 class ExhQueryService(
-    private val exhPort: ExhPort
+    private val exhPort: ExhPort,
+    private val soloDiaryPort: SoloDiaryPort
 ) : ExhQueryUseCase {
     override fun getExhList(query: ExhListQuery): Slice<ExhListResult> {
         return if (!query.keyword.isNullOrBlank()) {
@@ -40,5 +43,11 @@ class ExhQueryService(
 
     override fun getExhDetail(query: ExhDetailQuery): ExhDetailResult {
         return exhPort.findDetail(query.exhId, query.userId)
+    }
+
+    override fun getExhReviewList(query: ExhDetailQuery): List<ExhReviewResult> {
+        return soloDiaryPort.findExhReviewList(
+            exhId = query.exhId,
+        )
     }
 }

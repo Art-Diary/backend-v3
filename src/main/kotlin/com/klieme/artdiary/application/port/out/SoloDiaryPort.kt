@@ -1,5 +1,6 @@
 package com.klieme.artdiary.application.port.out
 
+import com.klieme.artdiary.application.dto.ExhReviewResult
 import com.klieme.artdiary.application.dto.SoloDiaryResult
 import java.time.LocalDateTime
 
@@ -33,4 +34,8 @@ interface SoloDiaryPort {
         userId: Long,
         soloDiaryId: Long
     )
+
+    fun findExhReviewList(
+        exhId: Long
+    ): List<ExhReviewResult>
 }
