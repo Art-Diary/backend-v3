@@ -1,9 +1,11 @@
 package com.klieme.artdiary.application.port.`in`.command
 
 interface SoloVisitCommandUseCase {
-    fun create(command: SoloVisitCreateCommand)
+    fun createVisit(command: SoloVisitCreateCommand)
 
-    fun update(command: SoloVisitUpdateCommand)
+    fun createDiary(command: SoloDiaryCreateCommand)
 
-    fun delete(command: SoloVisitDeleteCommand)
+    fun updateDiary(command: SoloDiaryUpdateCommand)
+
+    fun deleteDiary(command: SoloDiaryDeleteCommand)
 }

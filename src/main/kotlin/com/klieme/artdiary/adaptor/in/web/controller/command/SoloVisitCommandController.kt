@@ -1,11 +1,9 @@
 package com.klieme.artdiary.adaptor.`in`.web.controller.command
 
+import com.klieme.artdiary.adaptor.`in`.web.request.SoloDiaryRequest
 import com.klieme.artdiary.adaptor.`in`.web.request.SoloVisitRequest
 import com.klieme.artdiary.adaptor.`in`.web.response.ApiResponse
-import com.klieme.artdiary.application.port.`in`.command.SoloVisitCreateCommand
-import com.klieme.artdiary.application.port.`in`.command.SoloVisitCommandUseCase
-import com.klieme.artdiary.application.port.`in`.command.SoloVisitDeleteCommand
-import com.klieme.artdiary.application.port.`in`.command.SoloVisitUpdateCommand
+import com.klieme.artdiary.application.port.`in`.command.*
 import com.klieme.artdiary.infrastructure.jwt.CustomUserDetails
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
@@ -18,13 +16,29 @@ import org.springframework.web.bind.annotation.*
 class SoloVisitCommandController(
     private val soloVisitCommandUseCase: SoloVisitCommandUseCase
 ) {
-    @PostMapping("/{visitId}/diaries")
-    fun createDiary(
-        @PathVariable visitId: Long,
+    @PostMapping
+    fun createVisit(
         @RequestBody request: SoloVisitRequest,
         @AuthenticationPrincipal user: CustomUserDetails
     ): ResponseEntity<Void> {
         val command = SoloVisitCreateCommand(
+            exhId = request.exhId,
+            userId = user.userId,
+            visitDate = request.visitDate,
+        )
+
+        soloVisitCommandUseCase.createVisit(command)
+
+        return ApiResponse.noContent()
+    }
+
+    @PostMapping("/{visitId}/diaries")
+    fun createDiary(
+        @PathVariable visitId: Long,
+        @RequestBody request: SoloDiaryRequest,
+        @AuthenticationPrincipal user: CustomUserDetails
+    ): ResponseEntity<Void> {
+        val command = SoloDiaryCreateCommand(
             visitId = visitId,
             userId = user.userId,
             questionId = request.questionId,
@@ -33,7 +47,7 @@ class SoloVisitCommandController(
             isPublic = request.isPublic,
         )
 
-        soloVisitCommandUseCase.create(command)
+        soloVisitCommandUseCase.createDiary(command)
 
         return ApiResponse.noContent()
     }
@@ -42,10 +56,10 @@ class SoloVisitCommandController(
     fun updateDiary(
         @PathVariable visitId: Long,
         @PathVariable soloDiaryId: Long,
-        @RequestBody request: SoloVisitRequest,
+        @RequestBody request: SoloDiaryRequest,
         @AuthenticationPrincipal user: CustomUserDetails
     ): ResponseEntity<Void> {
-        val command = SoloVisitUpdateCommand(
+        val command = SoloDiaryUpdateCommand(
             visitId = visitId,
             userId = user.userId,
             soloDiaryId = soloDiaryId,
@@ -55,7 +69,7 @@ class SoloVisitCommandController(
             isPublic = request.isPublic,
         )
 
-        soloVisitCommandUseCase.update(command)
+        soloVisitCommandUseCase.updateDiary(command)
 
         return ApiResponse.noContent()
     }
@@ -66,13 +80,13 @@ class SoloVisitCommandController(
         @PathVariable soloDiaryId: Long,
         @AuthenticationPrincipal user: CustomUserDetails
     ): ResponseEntity<Void> {
-        val command = SoloVisitDeleteCommand(
+        val command = SoloDiaryDeleteCommand(
             visitId = visitId,
             userId = user.userId,
             soloDiaryId = soloDiaryId,
         )
 
-        soloVisitCommandUseCase.delete(command)
+        soloVisitCommandUseCase.deleteDiary(command)
 
         return ApiResponse.noContent()
     }
