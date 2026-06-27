@@ -1,14 +1,11 @@
 package com.klieme.artdiary.application.dto
 
 import com.querydsl.core.annotations.QueryProjection
-import java.time.LocalDate
 import java.time.LocalDateTime
 
-data class SoloDiaryListResult
+data class SoloDiaryResult
 @QueryProjection
 constructor(
-    val visitId: Long,
-    val visitDate: LocalDate,
     val soloDiaryId: Long,
     val questionId: Long,
     val questionContent: String,

@@ -14,31 +14,31 @@ import org.springframework.web.bind.annotation.RestController
 
 @Tag(name = "Solo Visit", description = "(Query) Solo Visit 개인 방문 API")
 @RestController
-@RequestMapping("/api/users/me/visited-exhibitions")
+@RequestMapping("/api/users/me/visits")
 class SoloVisitQueryController(
     private val soloVisitQueryUseCase: SoloVisitQueryUseCase
 ) {
     @GetMapping
     fun getVisitedExhList(
         @AuthenticationPrincipal user: CustomUserDetails,
-    ): ApiResult<List<SoloVisitedExhListResponse>> {
+    ): ApiResult<List<SoloVisitedExhResponse>> {
         val result = soloVisitQueryUseCase.getVisitedExhList(user.userId)
         val response = result.map { it.toListResponse() }
 
         return ApiResponse.get(response)
     }
 
-    @GetMapping("/{exhId}/diaries")
+    @GetMapping("/{visitId}/diaries")
     fun getSoloDiaryList(
-        @PathVariable exhId: Long,
+        @PathVariable visitId: Long,
         @AuthenticationPrincipal user: CustomUserDetails,
-    ): ApiResult<List<SoloDiaryListResponse>> {
+    ): ApiResult<List<SoloDiaryResponse>> {
         val query = SoloDiaryListQuery(
-            exhId = exhId,
+            visitId = visitId,
             userId = user.userId
         )
         val result = soloVisitQueryUseCase.getDiaryList(query)
-        val response = result.toListResponse()
+        val response = result.map { it.toListResponse() }
 
         return ApiResponse.get(response)
     }

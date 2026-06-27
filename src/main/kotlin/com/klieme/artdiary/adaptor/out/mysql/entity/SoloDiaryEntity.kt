@@ -16,11 +16,11 @@ class SoloDiaryEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "visit_id", nullable = false)
-    val visit: VisitEntity,
+    var visit: VisitEntity,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id", nullable = false)
-    val question: QuestionEntity,
+    var question: QuestionEntity,
 
     @Column(name = "content", nullable = false, length = 2083)
     var content: String,
@@ -30,4 +30,16 @@ class SoloDiaryEntity(
 
     @Column(name = "is_public", nullable = false)
     var isPublic: Boolean,
-)
+) {
+    fun update(
+        question: QuestionEntity,
+        answerContent: String,
+        writeDate: LocalDateTime,
+        isPublic: Boolean,
+    ) {
+        this.question = question
+        this.content = answerContent
+        this.writeDate = writeDate
+        this.isPublic = isPublic
+    }
+}

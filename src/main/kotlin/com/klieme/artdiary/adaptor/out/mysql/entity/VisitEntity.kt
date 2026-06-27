@@ -28,7 +28,7 @@ class VisitEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exh_id", nullable = false)
-    val exh: ExhEntity,
+    var exh: ExhEntity,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

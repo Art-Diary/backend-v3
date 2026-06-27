@@ -1,37 +1,24 @@
 package com.klieme.artdiary.adaptor.`in`.web.mapper
 
 import com.klieme.artdiary.adaptor.`in`.web.response.SoloDiaryResponse
-import com.klieme.artdiary.adaptor.`in`.web.response.SoloDiaryListResponse
-import com.klieme.artdiary.adaptor.`in`.web.response.SoloVisitedExhListResponse
-import com.klieme.artdiary.application.dto.SoloDiaryListResult
-import com.klieme.artdiary.application.dto.SoloVisitedExhListResult
+import com.klieme.artdiary.adaptor.`in`.web.response.SoloVisitedExhResponse
+import com.klieme.artdiary.application.dto.SoloDiaryResult
+import com.klieme.artdiary.application.dto.SoloVisitedExhResult
 
-fun SoloVisitedExhListResult.toListResponse(): SoloVisitedExhListResponse = SoloVisitedExhListResponse(
+fun SoloVisitedExhResult.toListResponse(): SoloVisitedExhResponse = SoloVisitedExhResponse(
+    visitId = visitId,
+    visitDate = visitDate,
     exhId = exhId,
     exhName = exhName,
     gallery = gallery,
-    poster = poster,
-    visitDate = visitDate
+    poster = poster
 )
 
-fun List<SoloDiaryListResult>.toListResponse(): List<SoloDiaryListResponse> =
-    groupBy { it.visitId }
-        .map { (_, results) ->
-
-            val first = results.first()
-
-            SoloDiaryListResponse(
-                visitId = first.visitId,
-                visitDate = first.visitDate,
-                diaries = results.map {
-                    SoloDiaryResponse(
-                        soloDiaryId = it.soloDiaryId,
-                        questionId = it.questionId,
-                        questionContent = it.questionContent,
-                        answerContent = it.answerContent,
-                        writeDate = it.writeDate,
-                        isPublic = it.isPublic,
-                    )
-                }
-            )
-        }
+fun SoloDiaryResult.toListResponse(): SoloDiaryResponse = SoloDiaryResponse(
+    soloDiaryId = soloDiaryId,
+    questionId = questionId,
+    questionContent = questionContent,
+    answerContent = answerContent,
+    writeDate = writeDate,
+    isPublic = isPublic
+)

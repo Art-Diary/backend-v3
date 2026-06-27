@@ -1,10 +1,10 @@
 package com.klieme.artdiary.application.port.`in`.query
 
-import com.klieme.artdiary.application.dto.SoloDiaryListResult
-import com.klieme.artdiary.application.dto.SoloVisitedExhListResult
+import com.klieme.artdiary.application.dto.SoloDiaryResult
+import com.klieme.artdiary.application.dto.SoloVisitedExhResult
 
 interface SoloVisitQueryUseCase {
-    fun getVisitedExhList(userId: Long): List<SoloVisitedExhListResult>
+    fun getVisitedExhList(userId: Long): List<SoloVisitedExhResult>
 
-    fun getDiaryList(query: SoloDiaryListQuery): List<SoloDiaryListResult>
+    fun getDiaryList(query: SoloDiaryListQuery): List<SoloDiaryResult>
 }
