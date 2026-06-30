@@ -1,41 +1,32 @@
 package com.klieme.artdiary.adaptor.out.mysql.entity
 
 import jakarta.persistence.*
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Entity
 @Table(
-    name = "visit",
+    name = "gathering_member",
     schema = "public",
     uniqueConstraints = [
         UniqueConstraint(
             columnNames = [
-                "exh_id",
                 "user_id",
-                "visit_date"
-            ]
-        ),
-        UniqueConstraint(
-            columnNames = [
-                "exh_id",
-                "gathering_id",
-                "visit_date"
+                "gathering_id"
             ]
         )
     ]
 )
-class VisitEntity(
+class GatheringMemberEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @Column(name = "id")
     var id: Long? = null,
 
-    @Column(name = "visit_date", nullable = false)
-    var visitDate: LocalDate,
+    @Column(name = "created_at", nullable = false)
+    var createdAt: LocalDateTime,
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "exh_id", nullable = false)
-    var exh: ExhEntity,
+    @Column(name = "deleted_at")
+    var deletedAt: LocalDateTime? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

@@ -21,7 +21,7 @@ class SoloVisitQueryController(
     @GetMapping
     fun getVisitedExhList(
         @AuthenticationPrincipal user: CustomUserDetails,
-    ): ApiResult<List<SoloVisitedExhResponse>> {
+    ): ApiResult<List<VisitedExhResponse>> {
         val result = soloVisitQueryUseCase.getVisitedExhList(user.userId)
         val response = result.map { it.toResponse() }
 
