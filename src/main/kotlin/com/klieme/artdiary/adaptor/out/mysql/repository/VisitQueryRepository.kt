@@ -1,9 +1,13 @@
 package com.klieme.artdiary.adaptor.out.mysql.repository
 
-import com.klieme.artdiary.application.dto.SoloVisitedExhResult
+import com.klieme.artdiary.application.dto.VisitedExhResult
 
 interface VisitQueryRepository {
-    fun findVisitedExhList(
+    fun findSoloVisitedExhList(
         userId: Long,
-    ): List<SoloVisitedExhResult>
+    ): List<VisitedExhResult>
+
+    fun findGatheringVisitedExhList(
+        gatheringId: Long,
+    ): List<VisitedExhResult>
 }

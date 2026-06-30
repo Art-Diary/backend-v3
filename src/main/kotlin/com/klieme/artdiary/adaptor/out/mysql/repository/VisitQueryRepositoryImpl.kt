@@ -11,7 +11,7 @@ class VisitQueryRepositoryImpl(
     private val queryFactory: JPAQueryFactory,
 ) : VisitQueryRepository {
 
-    override fun findVisitedExhList(userId: Long): List<SoloVisitedExhResult> {
+    override fun findSoloVisitedExhList(userId: Long): List<VisitedExhResult> {
 
         return queryFactory
             .select(visitedExhProjection())
@@ -22,9 +22,19 @@ class VisitQueryRepositoryImpl(
             .fetch()
     }
 
-    private fun visitedExhProjection(): QSoloVisitedExhResult {
+    override fun findGatheringVisitedExhList(gatheringId: Long): List<VisitedExhResult> {
+        return queryFactory
+            .select(visitedExhProjection())
+            .from(visitEntity)
+            .join(visitEntity.exh, exhEntity)
+            .where(visitEntity.gathering.id.eq(gatheringId))
+            .orderBy(visitEntity.visitDate.desc())
+            .fetch()
+    }
 
-        return QSoloVisitedExhResult(
+    private fun visitedExhProjection(): QVisitedExhResult {
+
+        return QVisitedExhResult(
             visitEntity.id,
             visitEntity.visitDate,
             exhEntity.exhId,

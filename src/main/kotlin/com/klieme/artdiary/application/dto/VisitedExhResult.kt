@@ -3,7 +3,7 @@ package com.klieme.artdiary.application.dto
 import com.querydsl.core.annotations.QueryProjection
 import java.time.LocalDate
 
-data class SoloVisitedExhResult
+data class VisitedExhResult
 @QueryProjection
 constructor(
     val visitId: Long,
