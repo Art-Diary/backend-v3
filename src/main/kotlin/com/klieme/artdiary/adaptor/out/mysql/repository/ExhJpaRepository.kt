@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
+import java.time.LocalDate
 
 @Repository
 interface ExhJpaRepository : JpaRepository<ExhEntity, Long> {
@@ -29,4 +30,10 @@ interface ExhJpaRepository : JpaRepository<ExhEntity, Long> {
     """
     )
     fun decreaseLikeCount(exhId: Long): Int
+
+    fun existsByExhIdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
+        exhId: Long,
+        visitDate: LocalDate,
+        visitDate2: LocalDate
+    ): Boolean
 }

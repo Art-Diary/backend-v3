@@ -13,7 +13,7 @@ class SoloVisitCommandService(
     private val soloDiaryPort: SoloDiaryPort
 ) : SoloVisitCommandUseCase {
     override fun createVisit(command: SoloVisitCreateCommand) {
-        visitPort.save(
+        visitPort.saveSoloExh(
             exhId = command.exhId,
             userId = command.userId,
             visitDate = command.visitDate
