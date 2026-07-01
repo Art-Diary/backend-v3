@@ -12,4 +12,23 @@ interface GatheringPort {
         gatheringId: Long,
         userId: Long
     ): List<GatheringMemberResult>
+
+    fun existsByCode(code: String): Boolean
+
+    fun saveGathering(
+        name: String,
+        code: String
+    ): Long
+
+    fun saveGatheringMember(
+        userId: Long,
+        gatheringId: Long
+    )
+
+    fun findByCode(code: String): Long
+
+    fun existsByUserIdAndGatheringId(
+        userId: Long,
+        gatheringId: Long
+    ): Boolean
 }

@@ -1,10 +1,19 @@
 package com.klieme.artdiary.adaptor.out.mysql.entity
 
 import jakarta.persistence.*
+import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.SQLDelete
 import java.time.LocalDateTime
 
 @Entity
 @Table(name = "gathering", schema = "public")
+@SQLDelete(
+    sql = """
+    UPDATE gathering
+    SET deleted_at = CURRENT_TIMESTAMP
+    WHERE id = ?
+"""
+)
 class GatheringEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,9 +26,14 @@ class GatheringEntity(
     @Column(name = "code", nullable = false, length = 6)
     var code: String,
 
-    @Column(name = "created_at", nullable = false)
-    var createdAt: LocalDateTime,
+    @CreationTimestamp
+    @Column(
+        name = "created_at",
+        nullable = false,
+        updatable = false
+    )
+    var createdAt: LocalDateTime? = null,
 
     @Column(name = "deleted_at")
-    var deletedAt: LocalDateTime,
+    var deletedAt: LocalDateTime? = null,
 )

@@ -6,11 +6,28 @@ import java.time.LocalDate
 interface VisitPort {
     fun findSoloVisitedExhList(userId: Long): List<VisitedExhResult>
 
-    fun save(
+    fun saveSoloExh(
         exhId: Long,
         userId: Long,
         visitDate: LocalDate
     )
 
     fun findGatheringVisitedExhList(gatheringId: Long): List<VisitedExhResult>
+
+    fun existsAvailableVisitDate(
+        exhId: Long,
+        visitDate: LocalDate
+    ): Boolean
+
+    fun existsByExhIdAndGatheringIdAndVisitDate(
+        gatheringId: Long,
+        exhId: Long,
+        visitDate: LocalDate
+    ): Boolean
+
+    fun saveGatheringExh(
+        exhId: Long,
+        gatheringId: Long,
+        visitDate: LocalDate
+    )
 }
