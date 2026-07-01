@@ -8,4 +8,9 @@ import org.springframework.stereotype.Repository
 @Repository
 interface GatheringQuestionJpaRepository : JpaRepository<GatheringQuestionEntity, Long> {
     fun findByVisit(visit: VisitEntity): List<GatheringQuestionEntity>
+
+    fun findByIdAndVisit(
+        id: Long,
+        visit: VisitEntity
+    ): GatheringQuestionEntity?
 }
