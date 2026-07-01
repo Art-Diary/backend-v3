@@ -16,4 +16,8 @@ class GatheringQuestionEntity(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "visit_id", nullable = false)
     var visit: VisitEntity
-)
+) {
+    fun update(content: String) {
+        this.content = content
+    }
+}
