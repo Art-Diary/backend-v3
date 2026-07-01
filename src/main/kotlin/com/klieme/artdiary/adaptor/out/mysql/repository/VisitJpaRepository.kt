@@ -26,4 +26,9 @@ interface VisitJpaRepository : JpaRepository<VisitEntity, Long> {
         gathering: GatheringEntity,
         visitDate: LocalDate
     ): Boolean
+
+    fun existsByIdAndGathering(
+        id: Long,
+        gathering: GatheringEntity
+    ): Boolean
 }

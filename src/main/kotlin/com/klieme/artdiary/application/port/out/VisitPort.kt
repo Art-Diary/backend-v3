@@ -30,4 +30,9 @@ interface VisitPort {
         gatheringId: Long,
         visitDate: LocalDate
     )
+
+    fun existsByIdAndGatheringId(
+        gatheringId: Long,
+        id: Long
+    ): Boolean
 }

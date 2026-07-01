@@ -81,4 +81,11 @@ class VisitPersistenceAdapter(
             )
         )
     }
+
+    override fun existsByIdAndGatheringId(gatheringId: Long, id: Long): Boolean {
+        return jpaRepository.existsByIdAndGathering(
+            id = id,
+            gathering = gatheringJpaRepository.getReferenceById(gatheringId),
+        )
+    }
 }
