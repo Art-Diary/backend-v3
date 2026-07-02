@@ -42,4 +42,11 @@ class GatheringQuestionPersistenceAdapter(
 
         entity.update(content)
     }
+
+    override fun existsByIdAndVisitId(id: Long, visitId: Long): Boolean {
+        return jpaRepository.existsByIdAndVisit(
+            id = id,
+            visit = visitJpaRepository.getReferenceById(visitId)
+        )
+    }
 }
