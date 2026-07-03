@@ -3,7 +3,7 @@ package com.klieme.artdiary.application.service.command
 import com.klieme.artdiary.application.port.`in`.command.GatheringQuestionCommandUseCase
 import com.klieme.artdiary.application.port.`in`.command.GatheringQuestionCreateCommand
 import com.klieme.artdiary.application.port.`in`.command.GatheringQuestionUpdateCommand
-import com.klieme.artdiary.application.port.out.GatheringPort
+import com.klieme.artdiary.application.port.out.GatheringMemberPort
 import com.klieme.artdiary.application.port.out.GatheringQuestionPort
 import com.klieme.artdiary.application.port.out.VisitPort
 import com.klieme.artdiary.common.exception.ArtdiaryException
@@ -14,12 +14,12 @@ import org.springframework.stereotype.Service
 @Service
 @Transactional
 class GatheringQuestionCommandService(
-    private val gatheringPort: GatheringPort,
+    private val gatheringMemberPort: GatheringMemberPort,
     private val visitPort: VisitPort,
     private val gatheringQuestionPort: GatheringQuestionPort
 ) : GatheringQuestionCommandUseCase {
     override fun create(command: GatheringQuestionCreateCommand) {
-        if (!gatheringPort.existsByUserIdAndGatheringId(
+        if (!gatheringMemberPort.existsByUserIdAndGatheringId(
                 userId = command.userId,
                 gatheringId = command.gatheringId
             )
@@ -42,7 +42,7 @@ class GatheringQuestionCommandService(
     }
 
     override fun update(command: GatheringQuestionUpdateCommand) {
-        if (!gatheringPort.existsByUserIdAndGatheringId(
+        if (!gatheringMemberPort.existsByUserIdAndGatheringId(
                 userId = command.userId,
                 gatheringId = command.gatheringId
             )

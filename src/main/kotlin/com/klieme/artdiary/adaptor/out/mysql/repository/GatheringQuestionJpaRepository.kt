@@ -13,4 +13,9 @@ interface GatheringQuestionJpaRepository : JpaRepository<GatheringQuestionEntity
         id: Long,
         visit: VisitEntity
     ): GatheringQuestionEntity?
+
+    fun existsByIdAndVisit(
+        id: Long,
+        visit: VisitEntity
+    ): Boolean
 }

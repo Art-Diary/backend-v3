@@ -17,4 +17,9 @@ interface GatheringQuestionPort {
         visitId: Long,
         content: String
     )
+
+    fun existsByIdAndVisitId(
+        id: Long,
+        visitId: Long
+    ): Boolean
 }
