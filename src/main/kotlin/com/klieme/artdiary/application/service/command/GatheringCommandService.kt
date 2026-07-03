@@ -4,6 +4,7 @@ import com.klieme.artdiary.application.port.`in`.command.GatheringCommandUseCase
 import com.klieme.artdiary.application.port.`in`.command.GatheringCreateCommand
 import com.klieme.artdiary.application.port.`in`.command.GatheringJoinCommand
 import com.klieme.artdiary.application.port.`in`.command.GatheringVisitExhCommand
+import com.klieme.artdiary.application.port.out.GatheringMemberPort
 import com.klieme.artdiary.application.port.out.GatheringPort
 import com.klieme.artdiary.application.port.out.VisitPort
 import com.klieme.artdiary.common.exception.ArtdiaryException
@@ -16,6 +17,7 @@ import java.security.SecureRandom
 @Transactional
 class GatheringCommandService(
     private val gatheringPort: GatheringPort,
+    private val gatheringMemberPort: GatheringMemberPort,
     private val visitPort: VisitPort
 ) : GatheringCommandUseCase {
     private val CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
@@ -41,7 +43,7 @@ class GatheringCommandService(
             code = code
         )
 
-        gatheringPort.saveGatheringMember(
+        gatheringMemberPort.save(
             userId = command.userId,
             gatheringId = gatheringId
         )
@@ -50,12 +52,12 @@ class GatheringCommandService(
     override fun join(command: GatheringJoinCommand) {
         val gatheringId = gatheringPort.findByCode(command.code)
 
-        if (!gatheringPort.existsByUserIdAndGatheringId(
+        if (!gatheringMemberPort.existsByUserIdAndGatheringId(
                 gatheringId = gatheringId,
                 userId = command.userId
             )
         ) {
-            gatheringPort.saveGatheringMember(
+            gatheringMemberPort.save(
                 userId = command.userId,
                 gatheringId = gatheringId
             )
@@ -63,7 +65,7 @@ class GatheringCommandService(
     }
 
     override fun visitExh(command: GatheringVisitExhCommand) {
-        if (!gatheringPort.existsByUserIdAndGatheringId(
+        if (!gatheringMemberPort.existsByUserIdAndGatheringId(
                 gatheringId = command.gatheringId,
                 userId = command.userId
             )

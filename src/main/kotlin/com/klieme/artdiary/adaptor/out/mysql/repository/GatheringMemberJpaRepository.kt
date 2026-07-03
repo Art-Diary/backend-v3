@@ -12,4 +12,9 @@ interface GatheringMemberJpaRepository : JpaRepository<GatheringMemberEntity, Lo
         user: UserEntity,
         gathering: GatheringEntity
     ): Boolean
+
+    fun findByUserAndGathering(
+        user: UserEntity,
+        gathering: GatheringEntity
+    ): GatheringMemberEntity?
 }

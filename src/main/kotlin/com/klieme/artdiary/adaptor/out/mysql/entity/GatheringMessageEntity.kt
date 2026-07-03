@@ -30,4 +30,8 @@ class GatheringMessageEntity(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "gathering_member_id", nullable = false)
     var gatheringMember: GatheringMemberEntity
-)
+) {
+    fun update(content: String) {
+        this.content = content
+    }
+}

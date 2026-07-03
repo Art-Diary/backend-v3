@@ -1,5 +1,6 @@
 package com.klieme.artdiary.adaptor.out.mysql.repository
 
+import com.klieme.artdiary.adaptor.out.mysql.entity.GatheringMessageEntity
 import com.klieme.artdiary.adaptor.out.mysql.entity.QGatheringMemberEntity.gatheringMemberEntity
 import com.klieme.artdiary.adaptor.out.mysql.entity.QGatheringMessageEntity.gatheringMessageEntity
 import com.klieme.artdiary.adaptor.out.mysql.entity.QUserEntity.userEntity
@@ -34,5 +35,15 @@ class GatheringMessageQueryRepositoryImpl(
             userEntity.nickname,
             userEntity.profile
         )
+    }
+
+    override fun findByIdAndUserId(id: Long, userId: Long): GatheringMessageEntity? {
+        return queryFactory
+            .selectFrom(gatheringMessageEntity)
+            .where(
+                gatheringMessageEntity.id.eq(id),
+                gatheringMessageEntity.gatheringMember.user.userId.eq(userId)
+            )
+            .fetchOne()
     }
 }
