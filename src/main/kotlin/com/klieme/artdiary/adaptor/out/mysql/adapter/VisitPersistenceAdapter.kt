@@ -2,6 +2,7 @@ package com.klieme.artdiary.adaptor.out.mysql.adapter
 
 import com.klieme.artdiary.adaptor.out.mysql.entity.VisitEntity
 import com.klieme.artdiary.adaptor.out.mysql.repository.*
+import com.klieme.artdiary.application.dto.CalendarVisitResult
 import com.klieme.artdiary.application.dto.VisitedExhResult
 import com.klieme.artdiary.application.port.out.VisitPort
 import com.klieme.artdiary.common.exception.ArtdiaryException
@@ -86,6 +87,14 @@ class VisitPersistenceAdapter(
         return jpaRepository.existsByIdAndGathering(
             id = id,
             gathering = gatheringJpaRepository.getReferenceById(gatheringId),
+        )
+    }
+
+    override fun findCalendarData(userId: Long, year: Int, month: Int): List<CalendarVisitResult> {
+        return queryRepository.findCalendarData(
+            userId = userId,
+            year = year,
+            month = month
         )
     }
 }
