@@ -26,7 +26,8 @@ data class ExhDetailResponse(
     val homepageLink: String?,
     val poster: String,
     val source: String,
-    val liked: Boolean
+    val liked: Boolean,
+    val visited: Boolean
 )
 
 data class ExhReviewResponse(

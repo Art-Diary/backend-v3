@@ -2,6 +2,7 @@ package com.klieme.artdiary.adaptor.out.mysql.repository
 
 import com.klieme.artdiary.adaptor.out.mysql.entity.QExhEntity.exhEntity
 import com.klieme.artdiary.adaptor.out.mysql.entity.QLikeExhEntity.likeExhEntity
+import com.klieme.artdiary.adaptor.out.mysql.entity.QVisitEntity.visitEntity
 import com.klieme.artdiary.application.dto.ExhDetailResult
 import com.klieme.artdiary.application.dto.ExhListResult
 import com.klieme.artdiary.application.dto.QExhDetailResult
@@ -133,6 +134,11 @@ class ExhQueryRepositoryImpl(
                 likeExhEntity.exhId.eq(exhEntity.exhId),
                 likeExhEntity.userId.eq(userId)
             )
+            .leftJoin(visitEntity)
+            .on(
+                visitEntity.exh.eq(exhEntity),
+                visitEntity.user.userId.eq(userId)
+            )
             .where(
                 exhEntity.exhId.eq(exhId)
             )
@@ -154,7 +160,8 @@ class ExhQueryRepositoryImpl(
             exhEntity.poster,
             exhEntity.artField,
             exhEntity.source,
-            likeExhEntity.id.isNotNull
+            likeExhEntity.id.isNotNull,
+            visitEntity.isNotNull
         )
     }
 }

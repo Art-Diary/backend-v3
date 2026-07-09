@@ -30,7 +30,8 @@ fun ExhDetailResult.toResponse(): ExhDetailResponse = ExhDetailResponse(
     homepageLink = homepageLink,
     poster = poster,
     source = source,
-    liked = liked
+    liked = liked,
+    visited = visited
 )
 
 fun ExhReviewResult.toResponse(): ExhReviewResponse = ExhReviewResponse(
