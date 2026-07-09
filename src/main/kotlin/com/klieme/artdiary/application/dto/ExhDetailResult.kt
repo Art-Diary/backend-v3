@@ -18,5 +18,6 @@ constructor(
     val poster: String,
     val artField: String?,
     val source: String,
-    val liked: Boolean
+    val liked: Boolean,
+    val visited: Boolean
 )
