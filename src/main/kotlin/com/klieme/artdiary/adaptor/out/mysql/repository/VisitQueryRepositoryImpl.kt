@@ -1,6 +1,7 @@
 package com.klieme.artdiary.adaptor.out.mysql.repository
 
 import com.klieme.artdiary.adaptor.out.mysql.entity.QExhEntity.exhEntity
+import com.klieme.artdiary.adaptor.out.mysql.entity.QSoloDiaryEntity.soloDiaryEntity
 import com.klieme.artdiary.adaptor.out.mysql.entity.QVisitEntity.visitEntity
 import com.klieme.artdiary.application.dto.*
 import com.querydsl.jpa.impl.JPAQueryFactory
@@ -12,20 +13,37 @@ class VisitQueryRepositoryImpl(
     private val queryFactory: JPAQueryFactory,
 ) : VisitQueryRepository {
 
-    override fun findSoloVisitedExhList(userId: Long): List<VisitedExhResult> {
+    override fun findSoloVisitedExhList(userId: Long): List<SoloVisitedExhResult> {
 
         return queryFactory
-            .select(visitedExhProjection())
+            .select(soloVisitedExhProjection())
             .from(visitEntity)
             .join(visitEntity.exh, exhEntity)
+            .leftJoin(soloDiaryEntity)
+            .on(
+                soloDiaryEntity.visit.eq(visitEntity)
+            )
             .where(visitEntity.user.userId.eq(userId))
             .orderBy(visitEntity.visitDate.desc())
             .fetch()
     }
 
-    override fun findGatheringVisitedExhList(gatheringId: Long): List<VisitedExhResult> {
+    private fun soloVisitedExhProjection(): QSoloVisitedExhResult {
+
+        return QSoloVisitedExhResult(
+            visitEntity.id,
+            visitEntity.visitDate,
+            exhEntity.exhId,
+            exhEntity.exhName,
+            exhEntity.gallery,
+            exhEntity.poster,
+            soloDiaryEntity.isNotNull
+        )
+    }
+
+    override fun findGatheringVisitedExhList(gatheringId: Long): List<GatheringVisitedExhResult> {
         return queryFactory
-            .select(visitedExhProjection())
+            .select(gatheringVisitedExhProjection())
             .from(visitEntity)
             .join(visitEntity.exh, exhEntity)
             .where(visitEntity.gathering.id.eq(gatheringId))
@@ -33,9 +51,9 @@ class VisitQueryRepositoryImpl(
             .fetch()
     }
 
-    private fun visitedExhProjection(): QVisitedExhResult {
+    private fun gatheringVisitedExhProjection(): QGatheringVisitedExhResult {
 
-        return QVisitedExhResult(
+        return QGatheringVisitedExhResult(
             visitEntity.id,
             visitEntity.visitDate,
             exhEntity.exhId,

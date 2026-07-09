@@ -10,7 +10,7 @@ data class GatheringDetailResponse(
     val name: String,
     val code: String,
     val memberList: List<GatheringMemberResponse>,
-    val visitedExhList: List<VisitedExhResponse>
+    val visitedExhList: List<GatheringVisitedExhResponse>
 )
 
 data class GatheringMemberResponse(

@@ -1,11 +1,12 @@
 package com.klieme.artdiary.application.port.out
 
 import com.klieme.artdiary.application.dto.CalendarVisitResult
-import com.klieme.artdiary.application.dto.VisitedExhResult
+import com.klieme.artdiary.application.dto.GatheringVisitedExhResult
+import com.klieme.artdiary.application.dto.SoloVisitedExhResult
 import java.time.LocalDate
 
 interface VisitPort {
-    fun findSoloVisitedExhList(userId: Long): List<VisitedExhResult>
+    fun findSoloVisitedExhList(userId: Long): List<SoloVisitedExhResult>
 
     fun saveSoloExh(
         exhId: Long,
@@ -13,7 +14,7 @@ interface VisitPort {
         visitDate: LocalDate
     )
 
-    fun findGatheringVisitedExhList(gatheringId: Long): List<VisitedExhResult>
+    fun findGatheringVisitedExhList(gatheringId: Long): List<GatheringVisitedExhResult>
 
     fun existsAvailableVisitDate(
         exhId: Long,
