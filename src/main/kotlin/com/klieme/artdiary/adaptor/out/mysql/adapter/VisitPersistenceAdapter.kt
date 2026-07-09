@@ -3,7 +3,8 @@ package com.klieme.artdiary.adaptor.out.mysql.adapter
 import com.klieme.artdiary.adaptor.out.mysql.entity.VisitEntity
 import com.klieme.artdiary.adaptor.out.mysql.repository.*
 import com.klieme.artdiary.application.dto.CalendarVisitResult
-import com.klieme.artdiary.application.dto.VisitedExhResult
+import com.klieme.artdiary.application.dto.GatheringVisitedExhResult
+import com.klieme.artdiary.application.dto.SoloVisitedExhResult
 import com.klieme.artdiary.application.port.out.VisitPort
 import com.klieme.artdiary.common.exception.ArtdiaryException
 import com.klieme.artdiary.common.exception.ErrorType
@@ -18,7 +19,7 @@ class VisitPersistenceAdapter(
     private val userJpaRepository: UserJpaRepository,
     private val gatheringJpaRepository: GatheringJpaRepository
 ) : VisitPort {
-    override fun findSoloVisitedExhList(userId: Long): List<VisitedExhResult> {
+    override fun findSoloVisitedExhList(userId: Long): List<SoloVisitedExhResult> {
         return queryRepository.findSoloVisitedExhList(userId)
     }
 
@@ -39,7 +40,7 @@ class VisitPersistenceAdapter(
         )
     }
 
-    override fun findGatheringVisitedExhList(gatheringId: Long): List<VisitedExhResult> {
+    override fun findGatheringVisitedExhList(gatheringId: Long): List<GatheringVisitedExhResult> {
         return queryRepository.findGatheringVisitedExhList(gatheringId)
     }
 

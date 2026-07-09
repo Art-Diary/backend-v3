@@ -5,5 +5,5 @@ import com.klieme.artdiary.domain.Gathering
 data class GatheringDetailDto(
     val gathering: Gathering,
     val gatheringMemberList: List<GatheringMemberResult>,
-    val visitedExhList: List<VisitedExhResult>
+    val visitedExhList: List<GatheringVisitedExhResult>
 )

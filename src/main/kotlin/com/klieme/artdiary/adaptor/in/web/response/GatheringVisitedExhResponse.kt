@@ -1,11 +1,8 @@
-package com.klieme.artdiary.application.dto
+package com.klieme.artdiary.adaptor.`in`.web.response
 
-import com.querydsl.core.annotations.QueryProjection
 import java.time.LocalDate
 
-data class VisitedExhResult
-@QueryProjection
-constructor(
+data class GatheringVisitedExhResponse(
     val visitId: Long,
     val visitDate: LocalDate,
     val exhId: Long,

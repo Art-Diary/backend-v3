@@ -1,16 +1,17 @@
 package com.klieme.artdiary.adaptor.out.mysql.repository
 
 import com.klieme.artdiary.application.dto.CalendarVisitResult
-import com.klieme.artdiary.application.dto.VisitedExhResult
+import com.klieme.artdiary.application.dto.GatheringVisitedExhResult
+import com.klieme.artdiary.application.dto.SoloVisitedExhResult
 
 interface VisitQueryRepository {
     fun findSoloVisitedExhList(
         userId: Long,
-    ): List<VisitedExhResult>
+    ): List<SoloVisitedExhResult>
 
     fun findGatheringVisitedExhList(
         gatheringId: Long,
-    ): List<VisitedExhResult>
+    ): List<GatheringVisitedExhResult>
 
     fun findCalendarData(
         userId: Long,
