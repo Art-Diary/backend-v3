@@ -35,16 +35,19 @@ class SoloVisitCommandController(
     @PostMapping("/{visitId}/diaries")
     fun createDiary(
         @PathVariable visitId: Long,
-        @RequestBody request: SoloDiaryRequest,
+        @RequestBody request: List<SoloDiaryRequest>,
         @AuthenticationPrincipal user: CustomUserDetails
     ): ResponseEntity<Void> {
         val command = SoloDiaryCreateCommand(
             visitId = visitId,
             userId = user.userId,
-            questionId = request.questionId,
-            answerContent = request.answerContent,
-            writeDate = request.writeDate,
-            isPublic = request.isPublic,
+            diaryList = request.map {
+                DiaryListCommand(
+                    questionId = it.questionId,
+                    answerContent = it.answerContent,
+                    isPublic = it.isPublic,
+                )
+            }
         )
 
         soloVisitCommandUseCase.createDiary(command)
@@ -65,7 +68,6 @@ class SoloVisitCommandController(
             soloDiaryId = soloDiaryId,
             questionId = request.questionId,
             answerContent = request.answerContent,
-            writeDate = request.writeDate,
             isPublic = request.isPublic,
         )
 

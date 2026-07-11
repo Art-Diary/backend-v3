@@ -43,4 +43,9 @@ interface VisitPort {
         year: Int,
         month: Int
     ): List<CalendarVisitResult>
+
+    fun existsByVisitIdAndUserId(
+        visitId: Long,
+        userId: Long
+    ): Boolean
 }

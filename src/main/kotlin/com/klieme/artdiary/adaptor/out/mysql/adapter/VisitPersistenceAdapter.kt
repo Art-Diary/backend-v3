@@ -98,4 +98,11 @@ class VisitPersistenceAdapter(
             month = month
         )
     }
+
+    override fun existsByVisitIdAndUserId(visitId: Long, userId: Long): Boolean {
+        return jpaRepository.existsByIdAndUser(
+            id = visitId,
+            user = userJpaRepository.getReferenceById(userId)
+        )
+    }
 }

@@ -15,7 +15,6 @@ class SoloDiaryPersistenceAdapter(
     private val jpaRepository: SoloDiaryJpaRepository,
     private val queryRepository: SoloDiaryQueryRepository,
     private val visitJpaRepository: VisitJpaRepository,
-    private val userJpaRepository: UserJpaRepository,
     private val questionJpaRepository: QuestionJpaRepository
 ) : SoloDiaryPort {
     override fun findDiaryList(
@@ -27,29 +26,25 @@ class SoloDiaryPersistenceAdapter(
 
     override fun save(
         visitId: Long,
-        userId: Long,
         questionId: Long,
         answerContent: String,
-        writeDate: LocalDateTime,
         isPublic: Boolean
     ) {
-        val user = userJpaRepository.getReferenceById(userId)
-        val visitEntity = visitJpaRepository.findByIdAndUser(
-            visitId,
-            user
-        ) ?: throw ArtdiaryException(ErrorType.NOT_FOUND)
+        val visitEntity = visitJpaRepository.getReferenceById(visitId)
 
         val questionEntity = questionJpaRepository.findById(questionId)
             .orElseThrow {
                 ArtdiaryException(ErrorType.NOT_FOUND)
             }
 
+        val now = LocalDateTime.now()
+
         jpaRepository.save(
             SoloDiaryEntity(
                 visit = visitEntity,
                 question = questionEntity,
                 content = answerContent,
-                writeDate = writeDate,
+                writeDate = now,
                 isPublic = isPublic
             )
         )
@@ -61,7 +56,6 @@ class SoloDiaryPersistenceAdapter(
         soloDiaryId: Long,
         questionId: Long,
         answerContent: String,
-        writeDate: LocalDateTime,
         isPublic: Boolean
     ) {
         val entity = queryRepository.findDiary(
@@ -70,10 +64,12 @@ class SoloDiaryPersistenceAdapter(
             soloDiaryId = soloDiaryId
         ) ?: throw ArtdiaryException(ErrorType.NOT_FOUND)
 
+        val now = LocalDateTime.now()
+
         entity.update(
             question = questionJpaRepository.getReferenceById(questionId),
             answerContent = answerContent,
-            writeDate = writeDate,
+            writeDate = now,
             isPublic = isPublic
         )
     }

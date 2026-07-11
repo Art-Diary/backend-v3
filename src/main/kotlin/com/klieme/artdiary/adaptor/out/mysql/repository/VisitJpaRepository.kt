@@ -10,11 +10,6 @@ import java.time.LocalDate
 
 @Repository
 interface VisitJpaRepository : JpaRepository<VisitEntity, Long> {
-    fun findByIdAndUser(
-        id: Long,
-        user: UserEntity
-    ): VisitEntity?
-
     fun existsByExhAndUserAndVisitDate(
         exh: ExhEntity,
         user: UserEntity,
@@ -30,5 +25,10 @@ interface VisitJpaRepository : JpaRepository<VisitEntity, Long> {
     fun existsByIdAndGathering(
         id: Long,
         gathering: GatheringEntity
+    ): Boolean
+
+    fun existsByIdAndUser(
+        id: Long,
+        user: UserEntity
     ): Boolean
 }
