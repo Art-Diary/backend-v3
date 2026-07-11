@@ -4,6 +4,7 @@ import com.klieme.artdiary.adaptor.out.mysql.entity.QExhEntity.exhEntity
 import com.klieme.artdiary.adaptor.out.mysql.entity.QSoloDiaryEntity.soloDiaryEntity
 import com.klieme.artdiary.adaptor.out.mysql.entity.QVisitEntity.visitEntity
 import com.klieme.artdiary.application.dto.*
+import com.querydsl.jpa.JPAExpressions
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
 import java.time.LocalDate
@@ -19,10 +20,6 @@ class VisitQueryRepositoryImpl(
             .select(soloVisitedExhProjection())
             .from(visitEntity)
             .join(visitEntity.exh, exhEntity)
-            .leftJoin(soloDiaryEntity)
-            .on(
-                soloDiaryEntity.visit.eq(visitEntity)
-            )
             .where(visitEntity.user.userId.eq(userId))
             .orderBy(visitEntity.visitDate.desc())
             .fetch()
@@ -37,7 +34,11 @@ class VisitQueryRepositoryImpl(
             exhEntity.exhName,
             exhEntity.gallery,
             exhEntity.poster,
-            soloDiaryEntity.isNotNull
+            JPAExpressions
+                .selectOne()
+                .from(soloDiaryEntity)
+                .where(soloDiaryEntity.visit.eq(visitEntity))
+                .exists()
         )
     }
 

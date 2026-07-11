@@ -2,7 +2,6 @@ package com.klieme.artdiary.application.port.out
 
 import com.klieme.artdiary.application.dto.ExhReviewResult
 import com.klieme.artdiary.application.dto.SoloDiaryResult
-import java.time.LocalDateTime
 
 interface SoloDiaryPort {
     fun findDiaryList(
@@ -12,10 +11,8 @@ interface SoloDiaryPort {
 
     fun save(
         visitId: Long,
-        userId: Long,
         questionId: Long,
         answerContent: String,
-        writeDate: LocalDateTime,
         isPublic: Boolean
     )
 
@@ -25,7 +22,6 @@ interface SoloDiaryPort {
         soloDiaryId: Long,
         questionId: Long,
         answerContent: String,
-        writeDate: LocalDateTime,
         isPublic: Boolean
     )
 

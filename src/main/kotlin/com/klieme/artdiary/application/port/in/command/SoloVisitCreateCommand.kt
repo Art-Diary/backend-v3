@@ -1,7 +1,6 @@
 package com.klieme.artdiary.application.port.`in`.command
 
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 data class SoloVisitCreateCommand(
     val exhId: Long,
@@ -12,9 +11,12 @@ data class SoloVisitCreateCommand(
 data class SoloDiaryCreateCommand(
     val visitId: Long,
     val userId: Long,
+    val diaryList: List<DiaryListCommand>
+)
+
+data class DiaryListCommand(
     val questionId: Long,
     val answerContent: String,
-    val writeDate: LocalDateTime,
     val isPublic: Boolean
 )
 
@@ -24,7 +26,6 @@ data class SoloDiaryUpdateCommand(
     val soloDiaryId: Long,
     val questionId: Long,
     val answerContent: String,
-    val writeDate: LocalDateTime,
     val isPublic: Boolean
 )
 

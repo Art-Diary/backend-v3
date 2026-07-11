@@ -30,14 +30,22 @@ class SoloVisitCommandService(
     }
 
     override fun createDiary(command: SoloDiaryCreateCommand) {
-        soloDiaryPort.save(
-            visitId = command.visitId,
-            userId = command.userId,
-            questionId = command.questionId,
-            answerContent = command.answerContent,
-            writeDate = command.writeDate,
-            isPublic = command.isPublic
-        )
+        if (!visitPort.existsByVisitIdAndUserId(
+                visitId = command.visitId,
+                userId = command.userId
+            )
+        ) {
+            throw ArtdiaryException(ErrorType.NOT_FOUND)
+        }
+
+        command.diaryList.forEach { diary ->
+            soloDiaryPort.save(
+                visitId = command.visitId,
+                questionId = diary.questionId,
+                answerContent = diary.answerContent,
+                isPublic = diary.isPublic
+            )
+        }
     }
 
     override fun updateDiary(command: SoloDiaryUpdateCommand) {
@@ -47,7 +55,6 @@ class SoloVisitCommandService(
             soloDiaryId = command.soloDiaryId,
             questionId = command.questionId,
             answerContent = command.answerContent,
-            writeDate = command.writeDate,
             isPublic = command.isPublic
         )
     }
