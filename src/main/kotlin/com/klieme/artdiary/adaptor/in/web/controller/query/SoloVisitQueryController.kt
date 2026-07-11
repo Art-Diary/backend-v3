@@ -1,0 +1,45 @@
+package com.klieme.artdiary.adaptor.`in`.web.controller.query
+
+import com.klieme.artdiary.adaptor.`in`.web.mapper.toResponse
+import com.klieme.artdiary.adaptor.`in`.web.response.*
+import com.klieme.artdiary.application.port.`in`.query.SoloDiaryListQuery
+import com.klieme.artdiary.application.port.`in`.query.SoloVisitQueryUseCase
+import com.klieme.artdiary.infrastructure.jwt.CustomUserDetails
+import io.swagger.v3.oas.annotations.tags.Tag
+import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
+
+@Tag(name = "Solo Visit", description = "(Query) Solo Visit 개인 방문 API")
+@RestController
+@RequestMapping("/api/users/me/visits")
+class SoloVisitQueryController(
+    private val soloVisitQueryUseCase: SoloVisitQueryUseCase
+) {
+    @GetMapping
+    fun getVisitedExhList(
+        @AuthenticationPrincipal user: CustomUserDetails,
+    ): ApiResult<List<SoloVisitedExhResponse>> {
+        val result = soloVisitQueryUseCase.getVisitedExhList(user.userId)
+        val response = result.map { it.toResponse() }
+
+        return ApiResponse.get(response)
+    }
+
+    @GetMapping("/{visitId}/diaries")
+    fun getSoloDiaryList(
+        @PathVariable visitId: Long,
+        @AuthenticationPrincipal user: CustomUserDetails,
+    ): ApiResult<List<SoloDiaryResponse>> {
+        val query = SoloDiaryListQuery(
+            visitId = visitId,
+            userId = user.userId
+        )
+        val result = soloVisitQueryUseCase.getDiaryList(query)
+        val response = result.map { it.toResponse() }
+
+        return ApiResponse.get(response)
+    }
+}

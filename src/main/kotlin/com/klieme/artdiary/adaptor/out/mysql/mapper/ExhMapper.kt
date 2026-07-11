@@ -1,5 +1,6 @@
-package com.klieme.artdiary.adaptor.out.mysql
+package com.klieme.artdiary.adaptor.out.mysql.mapper
 
+import com.klieme.artdiary.adaptor.out.mysql.entity.ExhEntity
 import com.klieme.artdiary.domain.Exh
 
 object ExhMapper {

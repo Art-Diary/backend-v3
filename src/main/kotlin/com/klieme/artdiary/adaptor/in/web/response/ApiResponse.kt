@@ -19,6 +19,9 @@ class ApiResponse<T>(
         fun <T> created(data: T): ApiResult<T> =
             ApiResponse(status = HttpStatus.CREATED, data = data).toResponse()
 
+        fun noContent(): ResponseEntity<Void> =
+            ResponseEntity.noContent().build()
+
         fun failure(errorMessage: String, status: HttpStatus): ApiResult<Nothing> =
             ApiResponse<Nothing>(status = status, errorMessage = errorMessage).toResponse()
 
