@@ -1,10 +1,11 @@
 package com.klieme.artdiary.application.port.out
 
+import com.klieme.artdiary.application.dto.GatheringListResult
 import com.klieme.artdiary.application.dto.GatheringMemberResult
 import com.klieme.artdiary.domain.Gathering
 
 interface GatheringPort {
-    fun findList(userId: Long): List<Gathering>
+    fun findList(userId: Long): List<GatheringListResult>
 
     fun findById(gatheringId: Long): Gathering
 
