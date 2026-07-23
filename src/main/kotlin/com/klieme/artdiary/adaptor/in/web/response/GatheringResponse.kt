@@ -3,6 +3,8 @@ package com.klieme.artdiary.adaptor.`in`.web.response
 data class GatheringResponse(
     val id: Long,
     val name: String,
+    val exhibitionCount: Long,
+    val memberList: List<GatheringMemberResponse>
 )
 
 data class GatheringDetailResponse(

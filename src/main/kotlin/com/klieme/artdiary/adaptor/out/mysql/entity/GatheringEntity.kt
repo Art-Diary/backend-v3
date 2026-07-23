@@ -6,7 +6,13 @@ import org.hibernate.annotations.SQLDelete
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "gathering", schema = "public")
+@Table(
+    name = "gathering",
+    schema = "public",
+    uniqueConstraints = [
+        UniqueConstraint(columnNames = ["code"])
+    ]
+)
 @SQLDelete(
     sql = """
     UPDATE gathering
@@ -23,7 +29,7 @@ class GatheringEntity(
     @Column(name = "name", nullable = false, length = 20)
     var name: String,
 
-    @Column(name = "code", nullable = false, length = 6)
+    @Column(name = "code", nullable = false, length = 6, unique = true)
     var code: String,
 
     @CreationTimestamp

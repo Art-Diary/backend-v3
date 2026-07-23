@@ -4,12 +4,21 @@ import com.klieme.artdiary.adaptor.`in`.web.response.GatheringDetailResponse
 import com.klieme.artdiary.adaptor.`in`.web.response.GatheringMemberResponse
 import com.klieme.artdiary.adaptor.`in`.web.response.GatheringResponse
 import com.klieme.artdiary.application.dto.GatheringDetailDto
+import com.klieme.artdiary.application.dto.GatheringListDto
 import com.klieme.artdiary.application.dto.GatheringMemberResult
-import com.klieme.artdiary.domain.Gathering
+import com.klieme.artdiary.application.dto.MemberListDto
 
-fun Gathering.toResponse(): GatheringResponse = GatheringResponse(
+fun GatheringListDto.toResponse(): GatheringResponse = GatheringResponse(
     id = id,
-    name = name
+    name = name,
+    exhibitionCount = exhibitionCount,
+    memberList = memberList.map { it.toResponse() }
+)
+
+fun MemberListDto.toResponse(): GatheringMemberResponse = GatheringMemberResponse(
+    id = userId,
+    nickname = nickname,
+    profile = profile
 )
 
 fun GatheringDetailDto.toResponse(): GatheringDetailResponse = GatheringDetailResponse(
